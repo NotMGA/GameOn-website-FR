@@ -56,12 +56,15 @@
         <div class="content">
           <!-- bouton fermer  -->
           <span class="close close-btn"></span>
+          <label class="validation">Felicitation vous etes inscrit</label>
           <div class="modal-body">
             <form
-              name="reserve"
-              action="index.html"
-              method="get"
-              onsubmit="return validate();"  
+            name="reserve"
+            action="index.html"
+            method="get"
+            id="cform"
+              onsubmit="finaltest(); return false ;"  
+              
             >
               <div
                 class="formData">
@@ -73,7 +76,7 @@
                   name="first"
                   minlength="2"
                 /><br>
-                <!-- <label class="erreurt" for="erfirst"></label> -->
+                <label class="erreurt" id="erfirst"></label>
               </div>
               <div
                 class="formData">
@@ -84,6 +87,7 @@
                   id="last"
                   name="last"
                 /><br>
+                <label class="erreurt" id="erlast"></label>
               </div>
               <div
                 class="formData">
@@ -94,6 +98,7 @@
                   id="email"
                   name="email"
                 /><br>
+                <label class="erreurt" id="ermail"></label>
               </div>
               <div
                 class="formData">
@@ -104,12 +109,14 @@
                   id="birthdate"
                   name="birthdate"
                 /><br>
+                <label class="erreurt" id="erage"></label>
               </div>
               <div
                 class="formData">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
+              <label class="erreurt" id="ertournois"></label>
               <p class="text-label">Quelles villes ?</p>
               <div
                 class="formData">
@@ -180,6 +187,7 @@
                   Portland</label
                 >
               </div>
+              <label class="erreurt" id="erville"></label>
 
               <div
                 class="formData">
@@ -189,7 +197,7 @@
                   id="checkbox1"
                   checked
                 />
-                <label class="checkbox2-label" for="checkbox1" required>
+                <label class="checkbox2-label" for="checkbox1" >
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
@@ -200,11 +208,12 @@
                   Je souhaite être prévenu des prochains évènements.
                 </label>
                 <br>
+                <label class="erreurt" id="erobligatoir"></label>
               </div>
+              <!-- changement du type submit en button  -->
               <input
-                class="btn-submit"
+                class="btn-submit button"
                 type="submit"
-                class="button"
                 value="C'est parti"
               /> 
             </form>

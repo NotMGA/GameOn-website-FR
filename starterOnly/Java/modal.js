@@ -13,12 +13,20 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const subbtn = document.querySelector(".btn-submit");
 const clbtn = document.querySelector(".close-btn");
+const modalbody = document.querySelector(".modal-body");
+const content = document.querySelector(".content");
+const validation = document.querySelector(".validation");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal ));
 
 // launch modal form
 function launchModal() {
+  // rest de la modal 
+  document.getElementById("cform").reset();
+  content.style.height ="auto";
+  modalbody.style.display ="block";
+  validation.style.display ="none";
   modalbg.style.display = "block";
 }
 
@@ -30,118 +38,142 @@ function closemodal(){
   modalbg.style.display ="none";
 }
 
-
-subbtn.addEventListener("click" ,finaltest);
-function finaltest(){
-  if(nom("last") == false){
-    modalbg.style.display = "block";
-    alert ("ok");
-    
+// fonction pour lancer tous les fonctions avec le bouton c'est parti 
+var test ;
+function finaltest()
+{
+  test = 0;
+nom("last");
+nom("first");
+email();
+date();
+tournois();
+ville();
+obligatoir();
+// verification des tests
+console.log(test);
+ if (test ==0)  {
+  modalbody.style.display ="none";
+  content.style.height ="10em";
+  validation.style.display ="inline-block";
   }
-  else if (nom("first") == false){
-    modalbg.style.display = "block";
-    alert ("ok");
-    
-  }
-  else{
-    modalbg.style.display = "block";
-    alert ("ok");
-  }
-
 }
 
 
-
-// subbtn.addEventListener("click",function(){
-//   console.log("rentrer dans la fonction");
-
-//   if(nom("last")){
-//     alert ( "ok1");
-//   }
-//   if(nom("first")){
-//     alert ( "ok2");
-//   }
- 
-
-// } 
-// );
 
 // test du prenom et nom 
 function nom(last) {
   var firstname =document.getElementById(last).value;
+  //regex lettre 
   var pre = /^[a-z]+$/i;
   if( !pre.test( firstname ) ) {
-    // alert("Erreur pour le "+last+" : veillez mettre que des lettre ")
-    // document.getElementById('erfirst').innerHTML = 'coucou' ;
-    return false;
+    //message d'erreur 
+    document.getElementById('er'+last+'').innerHTML = 'Champ incorrect' ;    
+    test++;
+
  } else {
-  // alert(firstname);
-  return true;
+  document.getElementById('er'+last+'').innerHTML = '' ; 
+
+  
   }
 }
-//  test de l'eamail 
+//  test pour  l'email 
 function email () {
   var mail =document.getElementById("email").value;
+  // regex @ et . obligatoir 
   const regemail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   if (!regemail.test(mail)){
-    alert("erreur email");
-    return false;
+    // message d'erreur 
+    document.getElementById('ermail').innerHTML ="Adresse mail incorrecte "; 
+    test++;
   } else{
-    alert("valide");
-    return false;
+    document.getElementById('ermail').innerHTML ="";  
   }
 
 }
 
 // test pour l'age
 
-// subbtn.addEventListener("click", obligatoir
-// );
-
-
 function date(){
    age =document.getElementById("birthdate").value;
-  const regdate = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+   //regex nombre 
+  const regdate = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  // recuperation du jour / mois / annees dans différentes variables 
    years = age.substring(0,4);
    month = age.substring(5,7) -1;
    day = age.substring(8,10);
    var today = new Date();
    var birth = today.getFullYear() - years;
-
+  // test pour de la regex 
   if (!regdate.test(age)){
-    if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
-      birth--;  
-    }
-    alert(birth);
+    // message d'erreur 
+    document.getElementById('erage').innerHTML ="Date incorrecte";
+    test++;
   }
+  else if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+    birth--; 
+  }
+  // test de l'age 
+    else if (birth <= 17) {
+      // message d'erreur
+      document.getElementById('erage').innerHTML ="Le tournoi est interdit aux mineurs ";
+      test++;
+    }
+    else {
+      document.getElementById('erage').innerHTML ="";
+    }
+  
 }
-// nombre de tournoius 
+// test pour le tournois
 function tournois(){
+  // regex - interdit et verification d'une valeur 
+  let regtournois = /^\d*[0-9]\d*$/;
   var nbtournois = document.getElementById("quantity").value;
- tailltournois = nbtournois.length;
- if (tailltournois == 0){
-   alert ("faux")
+ if (!regtournois.test(nbtournois) || nbtournois>99){
+   //message d'erreur 
+  document.getElementById('ertournois').innerHTML ="Veuillez remplir le champ";
+  test++;
  }
  else{
-   alert ("vrais")
+  document.getElementById('ertournois').innerHTML ="";
  }
 
 }
 
-// villle du concoure 
+// test de la ville pour le concours 
 function ville (){
-  if (document.getElementById("location1").checked == true | document.getElementById("location2").checked == true |document.getElementById("location3").checked == true |document.getElementById("location4").checked == true | document.getElementById("location5").checked == true | document.getElementById("location6").checked == true)
+  let ischecked = false;
+  // verification des checkbox 
+  for(let i = 1;i < 7;i++ ){
+if (document.getElementById("location"+i).checked == true)
+{
+ ischecked = true;
+}
+  }
+  if (ischecked)
   {
-    alert ("1")
+    document.getElementById('erville').innerHTML ="";
+  }
+  else
+  {
+    // message d'erreur 
+    document.getElementById('erville').innerHTML ="Une ville est nécessaire ";
+    test++;
   }
 }
 
 
-// condition d'utulisateur 
+// test de la condition d'utilisateur 
 
 function obligatoir (){
+  // verification  de la checkbox 
   if (document.getElementById("checkbox1").checked == false)
   {
-    alert("2")
+    //message d'erreur
+    document.getElementById('erobligatoir').innerHTML ="Condition d'utilisateur obligatoire";
+    test++;
+  }
+  else{
+    document.getElementById('erobligatoir').innerHTML ="";
   }
 }
