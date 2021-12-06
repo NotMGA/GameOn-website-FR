@@ -16,6 +16,7 @@ const clbtn = document.querySelector(".close-btn");
 const modalbody = document.querySelector(".modal-body");
 const content = document.querySelector(".content");
 const validation = document.querySelector(".validation");
+const fermer = document.querySelector(".closeb");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal ));
@@ -26,12 +27,14 @@ function launchModal() {
   document.getElementById("cform").reset();
   content.style.height ="auto";
   modalbody.style.display ="block";
+  fermer.style.display ="none";
   validation.style.display ="none";
   modalbg.style.display = "block";
 }
 
 // close modal form event 
 clbtn.addEventListener("click", closemodal );
+fermer.addEventListener("click",closemodal);
 
 // close modal form 
 function closemodal(){
@@ -54,7 +57,8 @@ obligatoir();
 console.log(test);
  if (test ==0)  {
   modalbody.style.display ="none";
-  content.style.height ="10em";
+  document.getElementById("closeb").style.display="inline-block"
+  content.style.height ="20em";
   validation.style.display ="inline-block";
   }
 }
@@ -69,11 +73,12 @@ function nom(last) {
   if( !pre.test( firstname ) ) {
     //message d'erreur 
     document.getElementById('er'+last+'').innerHTML = 'Champ incorrect' ;    
+    document.getElementById(last).style.borderColor="red";
     test++;
 
  } else {
   document.getElementById('er'+last+'').innerHTML = '' ; 
-
+  document.getElementById(last).style.borderColor="initial";
   
   }
 }
@@ -85,8 +90,10 @@ function email () {
   if (!regemail.test(mail)){
     // message d'erreur 
     document.getElementById('ermail').innerHTML ="Adresse mail incorrecte "; 
+    document.getElementById("email").style.borderColor="red";
     test++;
   } else{
+    document.getElementById("email").style.borderColor="initial";
     document.getElementById('ermail').innerHTML ="";  
   }
 
@@ -107,6 +114,7 @@ function date(){
   // test pour de la regex 
   if (!regdate.test(age)){
     // message d'erreur 
+    document.getElementById("birthdate").style.borderColor="red";
     document.getElementById('erage').innerHTML ="Date incorrecte";
     test++;
   }
@@ -116,10 +124,12 @@ function date(){
   // test de l'age 
     else if (birth <= 17) {
       // message d'erreur
+      document.getElementById("birthdate").style.borderColor="red";
       document.getElementById('erage').innerHTML ="Le tournoi est interdit aux mineurs ";
       test++;
     }
     else {
+      document.getElementById("birthdate").style.borderColor="initial";
       document.getElementById('erage').innerHTML ="";
     }
   
@@ -131,10 +141,12 @@ function tournois(){
   var nbtournois = document.getElementById("quantity").value;
  if (!regtournois.test(nbtournois) || nbtournois>99){
    //message d'erreur 
+   document.getElementById("quantity").style.borderColor="red";
   document.getElementById('ertournois').innerHTML ="Veuillez remplir le champ";
   test++;
  }
  else{
+  document.getElementById("quantity").style.borderColor="initial";
   document.getElementById('ertournois').innerHTML ="";
  }
 
