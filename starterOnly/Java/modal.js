@@ -69,7 +69,8 @@ console.log(test);
 function nom(last) {
   var firstname =document.getElementById(last).value;
   //regex lettre 
-  var pre = /^[a-z]+$/i;
+  // var pre = /^[a-z]+$/i;
+  var pre=/^[a-zA-Z]+ [a-zA-Z]+$|^[a-zA-Z]+$|^[a-zA-Z]+ [a-zA-Z]+ [a-zA-Z]+$/
   if( !pre.test( firstname ) ) {
     //message d'erreur 
     document.getElementById('er'+last+'').innerHTML = 'Champ incorrect' ;    
